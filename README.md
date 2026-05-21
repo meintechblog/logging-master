@@ -15,6 +15,7 @@ Messwerte schreiben — und das Aufsetzen geht mit **einem Terminal-Befehl**.
 |---|---|---|---|---|---|
 | **influxdb** | über WG-Tunnel (wgsrv6) | `172.25.0.2` | 111 | `http://172.25.0.111:8086` | `meintechblog` |
 | **influxdb-hallbude** | Hallbude-Netz | `proxi1` `192.168.3.2` | 143 | `http://192.168.3.70:8086` | `hallbude` |
+| **influxdb-knausi** | Wohnwagen Knausi (WG-VPN) | `192.168.13.2` | 100 | `http://192.168.13.10:8086` | `knausi` |
 
 > **Zugangsdaten** liegen in `secrets/CREDENTIALS.md` — dieser Ordner ist in
 > `.gitignore` und wird **nicht** nach GitHub gesynct.
@@ -41,26 +42,12 @@ Der Installer überschreibt bei `MODE=install` niemals einen bestehenden Contain
 
 ### Aufruf direkt im Proxmox-Terminal (als root)
 
-Sobald das Repo **public** ist (z. B. für den Blog):
-
 ```bash
 # Neu installieren
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/meintechblog/logging-master/main/installer/install-influxdb.sh)"
 
 # Bestehende Instanz updaten (CTID angeben!)
 MODE=update CTID=143 bash -c "$(curl -fsSL https://raw.githubusercontent.com/meintechblog/logging-master/main/installer/install-influxdb.sh)"
-```
-
-Solange das Repo **private** ist, eine der beiden Varianten:
-
-```bash
-# A) mit GitHub-Token (Token mit repo-Scope)
-curl -fsSL -H "Authorization: token GHP_DEIN_TOKEN" \
-  https://raw.githubusercontent.com/meintechblog/logging-master/main/installer/install-influxdb.sh | bash
-
-# B) Skript vom Mac auf den Host kopieren und dort starten
-scp installer/install-influxdb.sh root@PROXMOX_HOST:/tmp/
-ssh root@PROXMOX_HOST 'bash /tmp/install-influxdb.sh'
 ```
 
 ### Mit Parametern

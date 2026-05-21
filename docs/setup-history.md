@@ -54,8 +54,30 @@ Die CT wurde zunächst mit DHCP erstellt (IP `.186`) und danach per
 
 ---
 
+## 2026-05-21 — Instanz 3: `influxdb-knausi` (192.168.13.2)
+
+**Proxmox-Host:** `192.168.13.2` (PVE 9.1.7, Wohnwagen Knausi, über WG-VPN)
+
+| Parameter | Wert |
+|---|---|
+| CT-ID | 100 (nächste freie — Host hatte nur CTs 200–202) |
+| Hostname | `influxdb-knausi` |
+| Template | Debian 12 (`debian-12-standard_12.12-1`, vom Installer autom. geladen) |
+| Specs | 2 cores / 4096 MB RAM / 1024 MB Swap / 32 GB Disk |
+| Storage | `local-lvm` (lvmthin) |
+| Netzwerk | statisch `192.168.13.10/24`, GW `192.168.13.1`, vmbr0 |
+| InfluxDB | v2.9.1 OSS |
+| Org | `knausi` |
+| Bucket | `default` (Retention unbegrenzt) |
+
+**Besonderheit:** Erste Instanz, die per **echtem One-Line-Installer** vom
+public GitHub-Repo eingerichtet wurde — voll automatisch inkl. Template-Download.
+IP `192.168.13.10` per Ping-Sweep vom Proxmox-Host als frei verifiziert.
+
+---
+
 ## Reproduzieren
 
-Beide Instanzen lassen sich mit `installer/install-influxdb.sh` 1:1 nachbauen —
+Alle Instanzen lassen sich mit `installer/install-influxdb.sh` 1:1 nachbauen —
 siehe README. Der Installer erzeugt bei jedem Lauf **frische** Zugangsdaten;
 die hier dokumentierten Instanzen behalten ihre in `secrets/CREDENTIALS.md`.
