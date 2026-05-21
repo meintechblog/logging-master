@@ -1,0 +1,61 @@
+# Setup-Historie
+
+Chronologische Dokumentation der eingerichteten InfluxDB-Instanzen.
+
+---
+
+## 2026-05-21 — Instanz 1: `influxdb` auf 172.25.0.2
+
+**Proxmox-Host:** `172.25.0.2` (PVE 9.0.3, erreichbar über WireGuard-Tunnel `wgsrv6`)
+
+| Parameter | Wert |
+|---|---|
+| CT-ID | 111 |
+| Hostname | `influxdb` |
+| Template | Debian 12 (`debian-12-standard_12.7-1`) |
+| Specs | 2 cores / 4096 MB RAM / 1024 MB Swap / 32 GB Disk |
+| Storage | `local-lvm` |
+| Netzwerk | statisch `172.25.0.111/24`, GW `172.25.0.1`, vmbr0 |
+| InfluxDB | v2.9.1 OSS (apt-repo `repos.influxdata.com/debian stable`) |
+| Org | `meintechblog` |
+| Bucket | `default` (Retention unbegrenzt) |
+
+**Stolperfalle:** Das Template `debian-13-standard_13.1-2` wurde von der
+`pve-container`-Version auf PVE 9.0.3 nicht akzeptiert
+(`unsupported debian version '13.1'`) → Fallback auf Debian 12.
+
+**Stolperfalle 2:** Während der Einrichtung brach SSH zum Host wiederholt ab.
+Ursache: Suricata-IPS auf der UniFi-UDM. Siehe
+[`suricata-ssh-block.md`](suricata-ssh-block.md).
+
+---
+
+## 2026-05-21 — Instanz 2: `influxdb-hallbude` auf proxi1
+
+**Proxmox-Host:** `proxi1` = `192.168.3.2` (PVE 9.1.6, Hallbude-Hauptnetz)
+
+| Parameter | Wert |
+|---|---|
+| CT-ID | 143 |
+| Hostname | `influxdb-hallbude` |
+| Template | Debian 12 (`debian-12-standard_12.12-1`) |
+| Specs | 4 cores / 8192 MB RAM / 2048 MB Swap / 64 GB Disk |
+| Storage | `data` (lvmthin) |
+| Netzwerk | statisch `192.168.3.70/24`, GW `192.168.3.1`, vmbr0 |
+| InfluxDB | v2.9.1 OSS |
+| Org | `hallbude` |
+| Bucket | `default` (Retention unbegrenzt) |
+
+**IP-Wahl:** Der DHCP-Pool der UDM ist `192.168.3.100–250`. Für die zentrale DB
+wurde eine statische IP unterhalb des Pools gewählt. `192.168.3.70` wurde per
+Ping-Sweep (`.3–.99`) + ARP-Tabelle + UDM-Neighbor-Table als frei verifiziert.
+Die CT wurde zunächst mit DHCP erstellt (IP `.186`) und danach per
+`pct set 143 -net0 ...ip=192.168.3.70/24...` auf statisch umgestellt.
+
+---
+
+## Reproduzieren
+
+Beide Instanzen lassen sich mit `installer/install-influxdb.sh` 1:1 nachbauen —
+siehe README. Der Installer erzeugt bei jedem Lauf **frische** Zugangsdaten;
+die hier dokumentierten Instanzen behalten ihre in `secrets/CREDENTIALS.md`.

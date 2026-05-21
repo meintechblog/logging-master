@@ -1,0 +1,11 @@
+# NIEMALS Zugangsdaten nach GitHub syncen
+secrets/
+*.secret
+*-credentials.txt
+*-credentials.md
+.env
+*.env
+
+# OS / Editor
+.DS_Store
+*.swp
