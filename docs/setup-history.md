@@ -4,14 +4,14 @@ Chronologische Dokumentation der eingerichteten InfluxDB-Instanzen.
 
 ---
 
-## 2026-05-21 — Instanz 1: `influxdb` auf 172.25.0.2
+## 2026-05-21 — Instanz 1: 172.25.0.2 (wgsrv6)
 
 **Proxmox-Host:** `172.25.0.2` (PVE 9.0.3, erreichbar über WireGuard-Tunnel `wgsrv6`)
 
 | Parameter | Wert |
 |---|---|
 | CT-ID | 111 |
-| Hostname | `influxdb` |
+| Hostname | `influxdb-master` (urspr. `influxdb`, umbenannt 2026-05-21) |
 | Template | Debian 12 (`debian-12-standard_12.7-1`) |
 | Specs | 2 cores / 4096 MB RAM / 1024 MB Swap / 32 GB Disk |
 | Storage | `local-lvm` |
@@ -30,14 +30,14 @@ Ursache: Suricata-IPS auf der UniFi-UDM. Siehe
 
 ---
 
-## 2026-05-21 — Instanz 2: `influxdb-hallbude` auf proxi1
+## 2026-05-21 — Instanz 2: proxi1 (Hallbude)
 
 **Proxmox-Host:** `proxi1` = `192.168.3.2` (PVE 9.1.6, Hallbude-Hauptnetz)
 
 | Parameter | Wert |
 |---|---|
 | CT-ID | 143 |
-| Hostname | `influxdb-hallbude` |
+| Hostname | `influxdb-master` (urspr. `influxdb-hallbude`, umbenannt 2026-05-21) |
 | Template | Debian 12 (`debian-12-standard_12.12-1`) |
 | Specs | 4 cores / 8192 MB RAM / 2048 MB Swap / 64 GB Disk |
 | Storage | `data` (lvmthin) |
@@ -54,14 +54,14 @@ Die CT wurde zunächst mit DHCP erstellt (IP `.186`) und danach per
 
 ---
 
-## 2026-05-21 — Instanz 3: `influxdb-knausi` (192.168.13.2)
+## 2026-05-21 — Instanz 3: 192.168.13.2 (Knausi)
 
 **Proxmox-Host:** `192.168.13.2` (PVE 9.1.7, Wohnwagen Knausi, über WG-VPN)
 
 | Parameter | Wert |
 |---|---|
 | CT-ID | 100 (nächste freie — Host hatte nur CTs 200–202) |
-| Hostname | `influxdb-knausi` |
+| Hostname | `influxdb-master` (urspr. `influxdb-knausi`, umbenannt 2026-05-21) |
 | Template | Debian 12 (`debian-12-standard_12.12-1`, vom Installer autom. geladen) |
 | Specs | 2 cores / 4096 MB RAM / 1024 MB Swap / 32 GB Disk |
 | Storage | `local-lvm` (lvmthin) |

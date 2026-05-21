@@ -11,11 +11,14 @@ Messwerte schreiben — und das Aufsetzen geht mit **einem Terminal-Befehl**.
 
 ## Aktuelle Instanzen
 
-| Instanz | Standort | Proxmox-Host | CT | InfluxDB-URL | Org |
-|---|---|---|---|---|---|
-| **influxdb** | über WG-Tunnel (wgsrv6) | `172.25.0.2` | 111 | `http://172.25.0.111:8086` | `meintechblog` |
-| **influxdb-hallbude** | Hallbude-Netz | `proxi1` `192.168.3.2` | 143 | `http://192.168.3.70:8086` | `hallbude` |
-| **influxdb-knausi** | Wohnwagen Knausi (WG-VPN) | `192.168.13.2` | 100 | `http://192.168.13.10:8086` | `knausi` |
+Alle Container heißen einheitlich **`influxdb-master`** — unterschieden werden sie
+über Standort / Proxmox-Host / Org.
+
+| Standort | Proxmox-Host | CT | InfluxDB-URL | Org |
+|---|---|---|---|---|
+| über WG-Tunnel (wgsrv6) | `172.25.0.2` | 111 | `http://172.25.0.111:8086` | `meintechblog` |
+| Hallbude-Netz | `proxi1` `192.168.3.2` | 143 | `http://192.168.3.70:8086` | `hallbude` |
+| Wohnwagen Knausi (WG-VPN) | `192.168.13.2` | 100 | `http://192.168.13.10:8086` | `knausi` |
 
 > **Zugangsdaten** liegen in `secrets/CREDENTIALS.md` — dieser Ordner ist in
 > `.gitignore` und wird **nicht** nach GitHub gesynct.
@@ -56,7 +59,7 @@ Alle Parameter sind optional (sinnvolle Defaults). Beispiel — exakt die
 Hallbude-Instanz reproduzieren:
 
 ```bash
-CTID=143 HOSTNAME=influxdb-hallbude \
+CTID=143 \
 CORES=4 RAM_MB=8192 SWAP_MB=2048 DISK_GB=64 \
 IP=192.168.3.70/24 GW=192.168.3.1 \
 INFLUX_ORG=hallbude INFLUX_BUCKET=default \
@@ -67,7 +70,7 @@ bash -c "$(curl -fsSL .../installer/install-influxdb.sh)"
 |---|---|---|
 | `MODE` | `install` | `install` oder `update` |
 | `CTID` | nächste freie ≥ 100 | Container-ID (bei `update` Pflicht) |
-| `HOSTNAME` | `influxdb` | LXC-Hostname |
+| `HOSTNAME` | `influxdb-master` | LXC-Hostname |
 | `CORES` | `4` | CPU-Kerne |
 | `RAM_MB` | `8192` | RAM in MB |
 | `SWAP_MB` | `2048` | Swap in MB |
