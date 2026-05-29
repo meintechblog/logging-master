@@ -36,7 +36,7 @@ esac
 # Konfiguration (per ENV ueberschreibbar)
 # ------------------------------------------------------------------
 CTID="${CTID:-}"                          # leer = naechste freie ID >= 100 (nur install)
-HOSTNAME="${HOSTNAME:-influxdb-master}"
+HOSTNAME="${HOSTNAME:-logging-master}"
 CORES="${CORES:-4}"
 RAM_MB="${RAM_MB:-8192}"
 SWAP_MB="${SWAP_MB:-2048}"

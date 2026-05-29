@@ -11,7 +11,7 @@ Messwerte schreiben — und das Aufsetzen geht mit **einem Terminal-Befehl**.
 
 ## Aktuelle Instanzen
 
-Alle Container heißen einheitlich **`influxdb-master`** — unterschieden werden sie
+Alle Container heißen einheitlich **`logging-master`** — unterschieden werden sie
 über Standort / Proxmox-Host / Org.
 
 | Standort | Proxmox-Host | CT | InfluxDB-URL | Org |
@@ -70,7 +70,7 @@ bash -c "$(curl -fsSL .../installer/install-influxdb.sh)"
 |---|---|---|
 | `MODE` | `install` | `install` oder `update` |
 | `CTID` | nächste freie ≥ 100 | Container-ID (bei `update` Pflicht) |
-| `HOSTNAME` | `influxdb-master` | LXC-Hostname |
+| `HOSTNAME` | `logging-master` | LXC-Hostname |
 | `CORES` | `4` | CPU-Kerne |
 | `RAM_MB` | `8192` | RAM in MB |
 | `SWAP_MB` | `2048` | Swap in MB |
