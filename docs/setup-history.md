@@ -76,6 +76,30 @@ IP `192.168.13.10` per Ping-Sweep vom Proxmox-Host als frei verifiziert.
 
 ---
 
+## 2026-05-30 — LXC-Rename + energy-master-Anbindung (Knausi)
+
+**Rename:** Die LXC-Hostname-Konvention wurde von `influxdb-master` auf
+`logging-master` umgestellt (passt zum Repo-/Projektnamen). Live umbenannt ohne
+Reboot (InfluxDB lief durch): CT 143 (Hallbude) und CT 100 (Knausi) via
+`pct set <ID> -hostname logging-master` + `hostnamectl` + `/etc/hosts`. CT 111
+(wgsrv6) trug den Namen bereits. IP/Org/Bucket/Tokens unverändert — schreibende
+Clients waren nicht betroffen. Installer-Default `HOSTNAME` ebenfalls angepasst.
+
+> Hinweis: Auf Host `172.25.0.2` läuft zusätzlich eine **nicht von uns
+> dokumentierte** zweite InfluxDB — CT 102 (`172.25.0.24`), Name `influxdb-master`.
+> Gehört nicht zum logging-master-Set, wurde bewusst nicht angefasst.
+
+**energy-master-Anbindung (Knausi):** Für die energy-master-App auf CT 150
+(`energy-master-knausi`, 192.168.13.145) wurde auf der Knausi-InfluxDB
+(192.168.13.10:8086, Org `knausi`) ein dedizierter Bucket **`knausi`**
+(Retention unbegrenzt) angelegt und ein **scoped Token** (read+write NUR auf
+diesen Bucket, kein All-Access) erzeugt. Token wurde direkt in
+`/opt/energy-master/secrets/.influx-knausi` (chmod 600) auf CT 150 hinterlegt —
+nicht über den Peer-Channel. Write/Read smoke-getestet (HTTP 204 + Read-back ok).
+Auth-ID und Token-Wert stehen in `secrets/CREDENTIALS.md`.
+
+---
+
 ## Reproduzieren
 
 Alle Instanzen lassen sich mit `installer/install-influxdb.sh` 1:1 nachbauen —

@@ -23,7 +23,7 @@ Alle Container heißen einheitlich **`logging-master`** — unterschieden werden
 > **Zugangsdaten** liegen in `secrets/CREDENTIALS.md` — dieser Ordner ist in
 > `.gitignore` und wird **nicht** nach GitHub gesynct.
 
-Beide laufen InfluxDB **v2.9.1 (OSS)**, Default-Bucket mit **unbegrenzter
+Alle laufen InfluxDB **v2.9.1 (OSS)**, Default-Bucket mit **unbegrenzter
 Retention**, je ein All-Access-Admin-Token.
 
 ---
