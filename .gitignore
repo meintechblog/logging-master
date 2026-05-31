@@ -9,3 +9,6 @@ secrets/
 # OS / Editor
 .DS_Store
 *.swp
+
+# Interne Planungs-/Task-Dateien (können Secrets referenzieren) — nie committen
+.planning/
