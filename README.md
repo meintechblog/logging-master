@@ -103,6 +103,18 @@ siehe [`docs/suricata-ssh-block.md`](docs/suricata-ssh-block.md).
 
 ---
 
+## Zusatz-Dienste auf der Influx-Infra
+
+Neben der reinen Datenbank laufen kleine Monitoring-Dienste, die auf einem der
+Influx-Container leben und nach Influx schreiben:
+
+- **Uptime-Monitor (dual-vantage)** — erkennt, ob meintechblog.de wirklich down ist
+  oder nur die Heim-IP per fail2ban gebannt wurde (intern via Haus-NAT vs. extern via
+  Off-Home-Proxy). Läuft als systemd-Timer auf CT143, schreibt nach Bucket `uptime`.
+  Artefakte: [`monitors/uptime/`](monitors/uptime/) · Doku: [`docs/uptime-monitor.md`](docs/uptime-monitor.md).
+
+---
+
 ## Repo-Struktur
 
 ```
@@ -110,9 +122,12 @@ logging-master/
 ├── README.md                       Diese Datei
 ├── installer/
 │   └── install-influxdb.sh         One-Line-Installer
+├── monitors/
+│   └── uptime/                     Dual-Vantage Uptime-Monitor (Script + systemd-Units)
 ├── docs/
 │   ├── setup-history.md            Was wann wie eingerichtet wurde
 │   ├── client-anbindung.md         Wie Clients Daten reinschreiben
+│   ├── uptime-monitor.md           Uptime-Monitor: Prinzip, Datenmodell, Roadmap
 │   └── suricata-ssh-block.md       UniFi-IPS-Stolperfalle + Fix
 └── secrets/                        NICHT in Git — Zugangsdaten
     └── CREDENTIALS.md

@@ -1,0 +1,9 @@
+[Unit]
+Description=Uptime dual-vantage monitor (meintechblog.de) — logging-master
+After=network-online.target influxdb.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/uptime-monitor/monitor.sh
+Nice=10
