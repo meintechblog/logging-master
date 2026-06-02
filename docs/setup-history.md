@@ -100,6 +100,38 @@ Auth-ID und Token-Wert stehen in `secrets/CREDENTIALS.md`.
 
 ---
 
+## 2026-06-02 — Markt-Zeitreihen-Bucket `market` (Knausi) für energy-master
+
+Auf Wunsch von energy-master (Direktvermarktungs-Erlös-Berechnung der LUOX-Anlage)
+ein zentraler Bucket für **externe Markt-Zeitreihen** auf der Knausi-InfluxDB
+(192.168.13.10:8086, Org `knausi`) — co-lokal zu energy-masters bestehendem Bucket
+`knausi`, damit beides in einem Flux-Query joinbar ist (Cross-Instanz-Joins gehen
+in InfluxDB nicht).
+
+| Parameter | Wert |
+|---|---|
+| Bucket | `market` (id `3cfab576b55a2ac0`) |
+| Retention | unbegrenzt (Referenz-/Finanzdaten dürfen nicht verfallen) |
+| Scoped Token | read+write NUR auf `market`, Auth-ID `10cd891def3c4000` |
+| Token-Datei (CT150) | `/opt/energy-master/secrets/.influx-market` (chmod 600) |
+
+**Schema-Konvention für Marktwert Solar** (von logging-master als DB-Owner festgelegt):
+
+| Element | Wert |
+|---|---|
+| Measurement | `marktwert_solar` |
+| Field | `ct_per_kwh` (float) |
+| Tags | `quelle=netztransparenz` |
+| Timestamp | Monatsanfang UTC (Mai 2026 → `2026-05-01T00:00:00Z`) |
+
+> **Warum InfluxDB hier passt** (anders als beim Chat-Archiv, das relational ging):
+> numerische, regelmäßige Monatswerte, niedrige Kardinalität, Range-/Aggregat-Queries,
+> Mehr-App-Read — klassischer Zeitreihen-Fall. Bewusst eigener Bucket statt mit in
+> `knausi`, wegen sauberer Retention/Read-ACL für künftige Konsumenten. Smoke-getestet
+> (Write HTTP 204 vom CT150 + Flux-Read-back, Test-Punkt wieder gelöscht).
+
+---
+
 ## Reproduzieren
 
 Alle Instanzen lassen sich mit `installer/install-influxdb.sh` 1:1 nachbauen —
